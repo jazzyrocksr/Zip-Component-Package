@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- WARNING: Eclipse auto-generated file.
+              Any modifications will be overwritten.
+              To include a user specific buildfile here, simply create one in the same
+              directory with the processing instruction <?eclipse.ant.import?>
+              as the first entry and export the buildfile again. -->
+<project basedir="." default="build" name="ZipPackageDeployment">
+    <property environment="env"/>
+    <property name="junit.output.dir" value="junit"/>
+    <property name="debuglevel" value="source,lines,vars"/>
+    <property name="target" value="1.6"/>
+    <property name="source" value="1.6"/>
+    <path id="ZipPackageDeployment.classpath">
+        <pathelement location="build/classes"/>
+        <pathelement location="lib/force-wsc.jar"/>
+        <pathelement location="lib/js-1.6R1.jar"/>
+        <pathelement location="lib/enterprise.jar"/>
+        <pathelement location="lib/metadata.jar"/>
+        <pathelement location="lib/selenium-java-2.24.1.jar"/>
+        <pathelement location="lib/selenium-server-standalone-2.24.1.jar"/>
+        <pathelement location="config.properties"/>
+    </path>
+    <target name="init">
+        <mkdir dir="build/classes"/>
+        <copy includeemptydirs="false" todir="build/classes">
+            <fileset dir="src">
+                <exclude name="**/*.launch"/>
+                <exclude name="**/*.java"/>
+            </fileset>
+        </copy>
+    </target>
+    <target name="clean">
+        <delete dir="build/classes"/>
+    </target>
+    <target depends="clean" name="cleanall"/>
+    <target depends="build-subprojects,build-project" name="build"/>
+    <target name="build-subprojects"/>
+    <target depends="init" name="build-project">
+        <echo message="${ant.project.name}: ${ant.file}"/>
+        <javac debug="true" debuglevel="${debuglevel}" destdir="build/classes" source="${source}" target="${target}">
+            <src path="src"/>
+            <classpath refid="ZipPackageDeployment.classpath"/>
+        </javac>
+    </target>
+    <target description="Build all projects which reference this project. Useful to propagate changes." name="build-refprojects"/>
+    <target name="MetadataLoginUtil">
+        <java classname="MetadataLoginUtil" failonerror="true" fork="yes">
+            <classpath refid="ZipPackageDeployment.classpath"/>
+        </java>
+    </target>
+    <target name="PackageInstall">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="PackageInstall" todir="${junit.output.dir}"/>
+            <classpath refid="ZipPackageDeployment.classpath"/>
+        </junit>
+    </target>
+    <target name="RetreivePackageComponent">
+        <java classname="RetreivePackageComponent" failonerror="true" fork="yes">
+            <classpath refid="ZipPackageDeployment.classpath"/>
+        </java>
+    </target>
+    <target name="RunZipPackage">
+        <java classname="RunZipPackage" failonerror="true" fork="yes">
+            <classpath refid="ZipPackageDeployment.classpath"/>
+        </java>
+    </target>
+    <target name="junitreport">
+        <junitreport todir="${junit.output.dir}">
+            <fileset dir="${junit.output.dir}">
+                <include name="TEST-*.xml"/>
+            </fileset>
+            <report format="frames" todir="${junit.output.dir}"/>
+        </junitreport>
+    </target>
+</project>
