@@ -4,7 +4,7 @@ Command Line using ANT,Java, Selenium automated fetching of Package components b
 Pre requisite : Firefox Browser
 
 Configuration : 
-1 Unzip the ZipPackageComponent.zip file
+1 Download and Unzip the ZipPackageComponent.zip file
 2 Edit config.properties for input data. Refer the config.properties file to fill each and every input data
 
 Run : 
